@@ -1,5 +1,6 @@
 "use client";
 import { useI18n } from "@/lib/i18n";
+import ScrambleText from "./ScrambleText";
 
 export default function Hero() {
   const { t } = useI18n();
@@ -40,7 +41,7 @@ export default function Hero() {
             flexShrink: 0,
           }}
         />
-        {t.hero.badge}
+        <ScrambleText text={t.hero.badge} />
       </div>
 
       <h1
@@ -54,18 +55,17 @@ export default function Hero() {
           maxWidth: 720,
         }}
       >
-        {t.hero.titleA}{" "}
-        <span
+        <ScrambleText text={t.hero.titleA} />{" "}
+        <ScrambleText
+          text={t.hero.highlight}
           style={{
             background:
               "linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
           }}
-        >
-          {t.hero.highlight}
-        </span>{" "}
-        {t.hero.titleB}
+        />{" "}
+        <ScrambleText text={t.hero.titleB} />
       </h1>
 
       <p
@@ -77,7 +77,7 @@ export default function Hero() {
           lineHeight: 1.65,
         }}
       >
-        {t.hero.subtitle}
+        <ScrambleText text={t.hero.subtitle} />
       </p>
     </header>
   );

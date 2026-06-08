@@ -1,5 +1,6 @@
 "use client";
 import { useI18n } from "@/lib/i18n";
+import ScrambleText from "./ScrambleText";
 
 export default function Footer() {
   const { t } = useI18n();
@@ -25,7 +26,11 @@ export default function Footer() {
           gap: 12,
         }}
       >
-        <p style={{ color: "var(--text-muted)", fontSize: 13 }}>{t.footer.built}</p>
+        <ScrambleText
+          as="p"
+          text={t.footer.built}
+          style={{ color: "var(--text-muted)", fontSize: 13 }}
+        />
         <p
           style={{
             color: "var(--text-muted)",
@@ -35,7 +40,7 @@ export default function Footer() {
             gap: 6,
           }}
         >
-          {t.footer.by}{" "}
+          <ScrambleText text={t.footer.by} />{" "}
           <span
             style={{
               fontFamily: "var(--font-heading)",

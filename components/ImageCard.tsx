@@ -3,6 +3,7 @@ import { m } from "framer-motion";
 import { CheckCircle, Loader, AlertCircle, Download, X } from "lucide-react";
 import { ConvertedImage } from "./Converter";
 import { useI18n } from "@/lib/i18n";
+import ScrambleText from "./ScrambleText";
 
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return bytes + " B";
@@ -166,7 +167,7 @@ export default function ImageCard({ img, index, onDownload, onRemove }: ImageCar
             fontSize: 11,
             fontWeight: 600,
           }}>
-            {t.card.alreadyWebp}
+            <ScrambleText text={t.card.alreadyWebp} />
           </div>
         )}
       </div>
@@ -215,7 +216,7 @@ export default function ImageCard({ img, index, onDownload, onRemove }: ImageCar
 
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <div>
-                <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 1 }}>{t.card.original}</p>
+                <ScrambleText as="p" text={t.card.original} style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 1 }} />
                 <p style={{ fontSize: 13, fontWeight: 500, color: "var(--text)" }}>{formatBytes(img.originalSize)}</p>
               </div>
               <div style={{ textAlign: "center" }}>
@@ -227,11 +228,11 @@ export default function ImageCard({ img, index, onDownload, onRemove }: ImageCar
                   fontSize: 11,
                   fontWeight: 700,
                 }}>
-                  {isGain ? t.card.saves(formatBytes(saving)) : t.card.gain(formatBytes(-saving))}
+                  <ScrambleText text={isGain ? t.card.saves(formatBytes(saving)) : t.card.gain(formatBytes(-saving))} />
                 </div>
               </div>
               <div style={{ textAlign: "right" }}>
-                <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 1 }}>{t.card.webp}</p>
+                <ScrambleText as="p" text={t.card.webp} style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 1 }} />
                 <p style={{ fontSize: 13, fontWeight: 500, color: isGain ? "var(--accent-3)" : "#FFB400" }}>
                   {formatBytes(img.convertedSize!)}
                 </p>
@@ -244,21 +245,21 @@ export default function ImageCard({ img, index, onDownload, onRemove }: ImageCar
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
             {img.status === "pending" && (
-              <span style={{ fontSize: 11, color: "var(--text-muted)" }}>{t.card.waiting}</span>
+              <ScrambleText text={t.card.waiting} style={{ fontSize: 11, color: "var(--text-muted)" }} />
             )}
             {img.status === "converting" && (
-              <span style={{ fontSize: 11, color: "var(--accent)" }}>{t.card.converting}</span>
+              <ScrambleText text={t.card.converting} style={{ fontSize: 11, color: "var(--accent)" }} />
             )}
             {img.status === "done" && (
               <>
                 <CheckCircle size={14} style={{ color: "var(--accent-3)" }} />
-                <span style={{ fontSize: 11, color: "var(--accent-3)", fontWeight: 500 }}>{t.card.done}</span>
+                <ScrambleText text={t.card.done} style={{ fontSize: 11, color: "var(--accent-3)", fontWeight: 500 }} />
               </>
             )}
             {img.status === "error" && (
               <>
                 <AlertCircle size={14} style={{ color: "#FF6B6B" }} />
-                <span style={{ fontSize: 11, color: "#FF6B6B" }}>{t.card.failed}</span>
+                <ScrambleText text={t.card.failed} style={{ fontSize: 11, color: "#FF6B6B" }} />
               </>
             )}
           </div>
@@ -281,7 +282,7 @@ export default function ImageCard({ img, index, onDownload, onRemove }: ImageCar
                 fontFamily: "var(--font-body)",
               }}
             >
-              <Download size={12} /> {t.card.save}
+              <Download size={12} /> <ScrambleText text={t.card.save} />
             </m.button>
           )}
         </div>

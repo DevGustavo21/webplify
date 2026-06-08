@@ -3,6 +3,7 @@ import { useRef, useState, useCallback } from "react";
 import { Upload, ImageIcon } from "lucide-react";
 import { m } from "framer-motion";
 import { useI18n } from "@/lib/i18n";
+import ScrambleText from "./ScrambleText";
 
 const ACCEPTED = ["image/png", "image/jpeg", "image/jpg", "image/webp", "image/jpg"];
 const ACCEPTED_EXT = [".png", ".jpg", ".jpeg", ".webp"];
@@ -114,12 +115,16 @@ export default function DropZone({ onFiles, disabled }: DropZoneProps) {
         </div>
 
         <div className="text-center">
-          <p style={{ fontFamily: "var(--font-heading)", fontSize: 20, fontWeight: 700, color: "var(--text)", marginBottom: 6 }}>
-            {dragging ? t.dropzone.active : t.dropzone.idle}
-          </p>
-          <p style={{ color: "var(--text-muted)", fontSize: 13 }}>
-            {t.dropzone.hint}
-          </p>
+          <ScrambleText
+            as="p"
+            text={dragging ? t.dropzone.active : t.dropzone.idle}
+            style={{ fontFamily: "var(--font-heading)", fontSize: 20, fontWeight: 700, color: "var(--text)", marginBottom: 6 }}
+          />
+          <ScrambleText
+            as="p"
+            text={t.dropzone.hint}
+            style={{ color: "var(--text-muted)", fontSize: 13 }}
+          />
         </div>
 
         {/* Action buttons */}
@@ -153,7 +158,7 @@ export default function DropZone({ onFiles, disabled }: DropZoneProps) {
               (e.currentTarget as HTMLElement).style.borderColor = "rgba(123,97,255,0.3)";
             }}
           >
-            <ImageIcon size={15} /> {t.dropzone.selectFiles}
+            <ImageIcon size={15} /> <ScrambleText text={t.dropzone.selectFiles} />
           </button>
         </div>
       </m.div>

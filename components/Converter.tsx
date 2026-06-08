@@ -7,6 +7,7 @@ import DropZone from "./DropZone";
 import ImageCard from "./ImageCard";
 import { Download, Trash2, Zap, ImageIcon, SlidersHorizontal } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import ScrambleText from "./ScrambleText";
 
 export interface ConvertedImage {
   id: string;
@@ -282,16 +283,15 @@ export default function Converter() {
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <SlidersHorizontal size={15} style={{ color: "var(--accent)" }} />
-                    <span
+                    <ScrambleText
+                      text={t.quality.label}
                       style={{
                         fontFamily: "var(--font-heading)",
                         fontSize: 14,
                         fontWeight: 600,
                         color: "var(--text)",
                       }}
-                    >
-                      {t.quality.label}
-                    </span>
+                    />
                   </div>
                   <span
                     style={{
@@ -335,8 +335,8 @@ export default function Converter() {
                     color: "var(--text-muted)",
                   }}
                 >
-                  <span>{t.quality.smaller}</span>
-                  <span>{t.quality.sharper}</span>
+                  <ScrambleText text={t.quality.smaller} />
+                  <ScrambleText text={t.quality.sharper} />
                 </div>
 
                 <p
@@ -347,7 +347,7 @@ export default function Converter() {
                     lineHeight: 1.5,
                   }}
                 >
-                  {t.quality.hint}
+                  <ScrambleText text={t.quality.hint} />
                 </p>
               </div>
             </m.div>
@@ -384,7 +384,7 @@ export default function Converter() {
                       marginBottom: 4,
                     }}
                   >
-                    {t.converter.youSaved}
+                    <ScrambleText text={t.converter.youSaved} />
                   </p>
                   <p
                     style={{
@@ -400,9 +400,11 @@ export default function Converter() {
                   >
                     {formatBytes(totalSaving)}
                   </p>
-                  <p style={{ fontSize: 13, color: "var(--accent-3)", fontWeight: 600 }}>
-                    {t.converter.smaller(totalPercent)}
-                  </p>
+                  <ScrambleText
+                    as="p"
+                    text={t.converter.smaller(totalPercent)}
+                    style={{ fontSize: 13, color: "var(--accent-3)", fontWeight: 600 }}
+                  />
                 </div>
               )}
 
@@ -444,7 +446,7 @@ export default function Converter() {
                     opacity: converting ? 0.5 : 1,
                   }}
                 >
-                  <Trash2 size={14} /> {t.converter.clear}
+                  <Trash2 size={14} /> <ScrambleText text={t.converter.clear} />
                 </m.button>
 
                 <m.button
@@ -482,7 +484,7 @@ export default function Converter() {
                   ) : (
                     <Download size={14} />
                   )}
-                  {zipping ? t.converter.zipping : t.converter.downloadAll}
+                  <ScrambleText text={zipping ? t.converter.zipping : t.converter.downloadAll} />
                 </m.button>
               </div>
             </m.div>
@@ -522,19 +524,21 @@ export default function Converter() {
             >
               <ImageIcon size={22} style={{ color: "var(--accent)" }} />
             </div>
-            <p
+            <ScrambleText
+              as="p"
+              text={t.converter.emptyTitle}
               style={{
                 fontFamily: "var(--font-heading)",
                 fontSize: 16,
                 fontWeight: 600,
                 color: "var(--text)",
               }}
-            >
-              {t.converter.emptyTitle}
-            </p>
-            <p style={{ fontSize: 13, color: "var(--text-muted)", maxWidth: 280 }}>
-              {t.converter.emptyDesc}
-            </p>
+            />
+            <ScrambleText
+              as="p"
+              text={t.converter.emptyDesc}
+              style={{ fontSize: 13, color: "var(--text-muted)", maxWidth: 280 }}
+            />
           </div>
         ) : (
           <div
@@ -565,7 +569,11 @@ export default function Converter() {
 function Stat({ label, value, color }: { label: string; value: string; color: string }) {
   return (
     <div>
-      <p style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 2, textTransform: "uppercase", letterSpacing: "0.05em" }}>{label}</p>
+      <ScrambleText
+        as="p"
+        text={label}
+        style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 2, textTransform: "uppercase", letterSpacing: "0.05em" }}
+      />
       <p style={{ fontSize: 15, fontWeight: 600, color, fontFamily: "var(--font-heading)" }}>{value}</p>
     </div>
   );
