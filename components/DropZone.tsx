@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState, useCallback } from "react";
 import { Upload, ImageIcon } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useI18n } from "@/lib/i18n";
 
 const ACCEPTED = ["image/png", "image/jpeg", "image/jpg", "image/webp", "image/jpg"];
@@ -70,7 +70,7 @@ export default function DropZone({ onFiles, disabled }: DropZoneProps) {
       onClick={() => !disabled && fileRef.current?.click()}
     >
       {/* Animated icon */}
-      <motion.div
+      <m.div
         animate={dragging ? { scale: 1.2, y: -8 } : { scale: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
         className="flex flex-col items-center gap-5"
@@ -97,7 +97,7 @@ export default function DropZone({ onFiles, disabled }: DropZoneProps) {
           />
           {/* Corner dots */}
           {[0,1,2,3].map(i => (
-            <motion.div
+            <m.div
               key={i}
               className="absolute"
               style={{
@@ -156,7 +156,7 @@ export default function DropZone({ onFiles, disabled }: DropZoneProps) {
             <ImageIcon size={15} /> {t.dropzone.selectFiles}
           </button>
         </div>
-      </motion.div>
+      </m.div>
 
       {/* Hidden input */}
       <input

@@ -1,5 +1,5 @@
 "use client";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { CheckCircle, Loader, AlertCircle, Download, X } from "lucide-react";
 import { ConvertedImage } from "./Converter";
 import { useI18n } from "@/lib/i18n";
@@ -27,7 +27,7 @@ export default function ImageCard({ img, index, onDownload, onRemove }: ImageCar
   const alreadyWebP = img.file.type === "image/webp" || img.file.name.toLowerCase().endsWith(".webp");
 
   return (
-    <motion.div
+    <m.div
       layout
       initial={{ opacity: 0, y: 24, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -43,7 +43,7 @@ export default function ImageCard({ img, index, onDownload, onRemove }: ImageCar
       }}
     >
       {/* Delete button */}
-      <motion.button
+      <m.button
         whileHover={{ scale: 1.12 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => onRemove(img.id)}
@@ -68,7 +68,7 @@ export default function ImageCard({ img, index, onDownload, onRemove }: ImageCar
         }}
       >
         <X size={15} />
-      </motion.button>
+      </m.button>
 
       {/* Image preview */}
       <div style={{ position: "relative", height: 160, background: "var(--surface-2)", overflow: "hidden" }}>
@@ -133,7 +133,7 @@ export default function ImageCard({ img, index, onDownload, onRemove }: ImageCar
 
         {/* Reduction badge */}
         {img.status === "done" && !alreadyWebP && (
-          <motion.div
+          <m.div
             initial={{ scale: 0, rotate: -10, opacity: 0 }}
             animate={{ scale: 1, rotate: 0, opacity: 1 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 400, damping: 15 }}
@@ -151,7 +151,7 @@ export default function ImageCard({ img, index, onDownload, onRemove }: ImageCar
             }}
           >
             {isGain ? `−${percent}%` : `+${Math.abs(percent)}%`}
-          </motion.div>
+          </m.div>
         )}
 
         {/* Already webp badge */}
@@ -199,7 +199,7 @@ export default function ImageCard({ img, index, onDownload, onRemove }: ImageCar
           <div style={{ marginBottom: 10 }}>
             {/* Progress fill */}
             <div style={{ height: 3, background: "var(--surface-2)", borderRadius: 2, marginBottom: 8, overflow: "hidden" }}>
-              <motion.div
+              <m.div
                 initial={{ width: 0 }}
                 animate={{ width: `${Math.max(10, 100 - percent)}%` }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
@@ -264,7 +264,7 @@ export default function ImageCard({ img, index, onDownload, onRemove }: ImageCar
           </div>
 
           {img.status === "done" && img.convertedBlob && (
-            <motion.button
+            <m.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => onDownload(img)}
@@ -282,10 +282,10 @@ export default function ImageCard({ img, index, onDownload, onRemove }: ImageCar
               }}
             >
               <Download size={12} /> {t.card.save}
-            </motion.button>
+            </m.button>
           )}
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }

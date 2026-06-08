@@ -34,7 +34,6 @@
     "edge >= 93",
     "firefox >= 92",
     "safari >= 15.4",
-    "ios_saf >= 15.4",
-    "not dead"
+    "ios_saf >= 15.4"
   ]
 }

@@ -1,6 +1,6 @@
 "use client";
 import { useState, useCallback, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import DropZone from "./DropZone";
@@ -255,7 +255,7 @@ export default function Converter() {
         {/* Quality control */}
         <AnimatePresence>
           {images.length > 0 && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 10, height: 0 }}
               animate={{ opacity: 1, y: 0, height: "auto" }}
               exit={{ opacity: 0, y: 10, height: 0 }}
@@ -350,13 +350,13 @@ export default function Converter() {
                   {t.quality.hint}
                 </p>
               </div>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
 
         <AnimatePresence>
           {done.length > 0 && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
@@ -422,7 +422,7 @@ export default function Converter() {
               </div>
 
               <div style={{ display: "flex", gap: 10 }}>
-                <motion.button
+                <m.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
                   onClick={clearAll}
@@ -445,9 +445,9 @@ export default function Converter() {
                   }}
                 >
                   <Trash2 size={14} /> {t.converter.clear}
-                </motion.button>
+                </m.button>
 
-                <motion.button
+                <m.button
                   whileHover={{
                     scale: 1.02,
                     boxShadow:
@@ -483,9 +483,9 @@ export default function Converter() {
                     <Download size={14} />
                   )}
                   {zipping ? t.converter.zipping : t.converter.downloadAll}
-                </motion.button>
+                </m.button>
               </div>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
       </div>

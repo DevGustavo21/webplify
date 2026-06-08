@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Zap, Sun, Moon } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
@@ -125,7 +125,7 @@ export default function Navbar() {
           </div>
 
           {/* Theme toggle */}
-          <motion.button
+          <m.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.92 }}
             onClick={toggle}
@@ -150,7 +150,7 @@ export default function Navbar() {
             ) : (
               <Moon size={18} style={{ color: "var(--accent)" }} />
             )}
-          </motion.button>
+          </m.button>
         </div>
       </div>
     </nav>

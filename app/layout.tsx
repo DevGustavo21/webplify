@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk, DM_Sans } from "next/font/google";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { I18nProvider } from "@/lib/i18n";
+import MotionProvider from "@/components/MotionProvider";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -139,7 +140,9 @@ export default function RootLayout({
             title="Google Tag Manager"
           />
         </noscript>
-        <I18nProvider>{children}</I18nProvider>
+        <I18nProvider>
+          <MotionProvider>{children}</MotionProvider>
+        </I18nProvider>
       </body>
     </html>
   );
