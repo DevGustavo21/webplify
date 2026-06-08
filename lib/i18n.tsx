@@ -44,7 +44,7 @@ export interface Dictionary {
     save: string;
     remove: string;
   };
-  footer: { built: string; crafted: string; by: string };
+  footer: { built: string; by: string };
   theme: string;
   quality: {
     label: string;
@@ -104,8 +104,7 @@ const en: Dictionary = {
   },
   footer: {
     built: "Built with Next.js · Canvas API · JSZip · No uploads, no tracking.",
-    crafted: "Crafted with",
-    by: "by",
+    by: "Made by",
   },
   theme: "Toggle color theme",
   quality: {
@@ -167,8 +166,7 @@ const es: Dictionary = {
   },
   footer: {
     built: "Hecho con Next.js · Canvas API · JSZip · Sin subidas, sin rastreo.",
-    crafted: "Hecho con",
-    by: "por",
+    by: "Hecho por",
   },
   theme: "Cambiar tema de color",
   quality: {

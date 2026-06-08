@@ -1,5 +1,4 @@
 "use client";
-import { Heart } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
 export default function Footer() {
@@ -36,8 +35,6 @@ export default function Footer() {
             gap: 6,
           }}
         >
-          {t.footer.crafted}
-          <Heart size={13} fill="var(--accent)" stroke="var(--accent)" />
           {t.footer.by}{" "}
           <span
             style={{

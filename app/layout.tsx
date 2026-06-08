@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { GoogleTagManager } from "@next/third-parties/google";
 import { I18nProvider } from "@/lib/i18n";
 import "./globals.css";
 
+const GTM_ID = "GTM-M7TM6J8R";
 const SITE_NAME = "Webplify";
 const TITLE = "Webplify — Free WebP Image Converter | Optimize Images Online";
 const DESCRIPTION =
@@ -95,6 +97,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <GoogleTagManager gtmId={GTM_ID} />
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -113,6 +116,15 @@ export default function RootLayout({
         />
       </head>
       <body className="grain" suppressHydrationWarning>
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+            title="Google Tag Manager"
+          />
+        </noscript>
         <I18nProvider>{children}</I18nProvider>
       </body>
     </html>
