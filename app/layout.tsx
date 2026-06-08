@@ -1,0 +1,120 @@
+import type { Metadata } from "next";
+import { I18nProvider } from "@/lib/i18n";
+import "./globals.css";
+
+const SITE_NAME = "Webplify";
+const TITLE = "Webplify — Free WebP Image Converter | Optimize Images Online";
+const DESCRIPTION =
+  "Webplify is a free online image converter that turns PNG and JPG into optimized WebP right in your browser. No uploads, no servers, 100% private — compress and download images instantly.";
+
+export const metadata: Metadata = {
+  title: {
+    default: TITLE,
+    template: "%s | Webplify",
+  },
+  description: DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: "Gustavo Mejia Fuentes" }],
+  creator: "Gustavo Mejia Fuentes",
+  publisher: SITE_NAME,
+  keywords: [
+    "webp converter",
+    "convert to webp",
+    "png to webp",
+    "jpg to webp",
+    "image optimizer",
+    "compress images",
+    "online image converter",
+    "free webp converter",
+    "browser image converter",
+    "optimize images for web",
+    "convertidor webp",
+    "convertir a webp",
+    "optimizar imágenes",
+    "comprimir imágenes",
+  ],
+  category: "technology",
+  alternates: {
+    canonical: "/",
+    languages: {
+      en: "/",
+      es: "/",
+    },
+  },
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: TITLE,
+    description: DESCRIPTION,
+    locale: "en_US",
+    alternateLocale: ["es_ES"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+};
+
+const themeInitScript = `(function(){try{var t=localStorage.getItem('theme');if(t!=='dark'&&t!=='light'){t='light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: SITE_NAME,
+  description: DESCRIPTION,
+  applicationCategory: "MultimediaApplication",
+  operatingSystem: "Any (web browser)",
+  browserRequirements: "Requires a modern web browser with Canvas support",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  featureList: [
+    "Convert PNG and JPG to WebP",
+    "Batch convert up to 50 images",
+    "Live compression statistics",
+    "100% client-side, no uploads",
+    "Download all as a ZIP",
+  ],
+  author: { "@type": "Person", name: "Gustavo Mejia Fuentes" },
+  inLanguage: ["en", "es"],
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
+      <body className="grain" suppressHydrationWarning>
+        <I18nProvider>{children}</I18nProvider>
+      </body>
+    </html>
+  );
+}
