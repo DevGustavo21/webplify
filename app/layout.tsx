@@ -8,8 +8,11 @@ const SITE_NAME = "Webplify";
 const TITLE = "Webplify — Free WebP Image Converter | Optimize Images Online";
 const DESCRIPTION =
   "Webplify is a free online image converter that turns PNG and JPG into optimized WebP right in your browser. No uploads, no servers, 100% private — compress and download images instantly.";
+// Production origin. Override with NEXT_PUBLIC_SITE_URL when deploying.
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://webplify.vercel.app";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: TITLE,
     template: "%s | Webplify",
@@ -39,8 +42,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
     languages: {
-      en: "/",
-      es: "/",
+      "en-US": "/",
+      "es-ES": "/",
+      "x-default": "/",
     },
   },
   openGraph: {
@@ -48,6 +52,7 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: TITLE,
     description: DESCRIPTION,
+    url: SITE_URL,
     locale: "en_US",
     alternateLocale: ["es_ES"],
   },
