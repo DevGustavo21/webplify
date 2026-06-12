@@ -41,15 +41,30 @@ export default function Footer() {
           }}
         >
           <ScrambleText text={t.footer.by} />{" "}
-          <span
+          <a
+            href="https://gustavo-mejia-portfolio.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               fontFamily: "var(--font-heading)",
               fontWeight: 600,
               color: "var(--text)",
+              textDecoration: "none",
+              borderBottom: "1px solid color-mix(in srgb, var(--accent) 45%, transparent)",
+              transition: "color 0.2s ease, border-color 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = "var(--accent)";
+              e.currentTarget.style.borderColor = "var(--accent)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = "var(--text)";
+              e.currentTarget.style.borderColor =
+                "color-mix(in srgb, var(--accent) 45%, transparent)";
             }}
           >
             Gustavo Mejia Fuentes
-          </span>
+          </a>
         </p>
       </div>
     </footer>
