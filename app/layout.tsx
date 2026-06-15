@@ -96,22 +96,48 @@ const themeInitScript = `(function(){try{var t=localStorage.getItem('theme');if(
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: SITE_NAME,
-  description: DESCRIPTION,
-  applicationCategory: "MultimediaApplication",
-  operatingSystem: "Any (web browser)",
-  browserRequirements: "Requires a modern web browser with Canvas support",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  featureList: [
-    "Convert PNG and JPG to WebP",
-    "Batch convert up to 50 images",
-    "Live compression statistics",
-    "100% client-side, no uploads",
-    "Download all as a ZIP",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      name: SITE_NAME,
+      alternateName: [
+        "Webplify",
+        "Webplify Image Converter",
+        "Webplify WebP Converter",
+      ],
+      url: SITE_URL,
+      description: DESCRIPTION,
+      inLanguage: ["en", "es"],
+      publisher: { "@id": `${SITE_URL}/#author` },
+    },
+    {
+      "@type": "Person",
+      "@id": `${SITE_URL}/#author`,
+      name: "Gustavo Mejia Fuentes",
+      url: "https://gustavo-mejia-portfolio.vercel.app/",
+    },
+    {
+      "@type": "WebApplication",
+      "@id": `${SITE_URL}/#app`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      description: DESCRIPTION,
+      applicationCategory: "MultimediaApplication",
+      operatingSystem: "Any (web browser)",
+      browserRequirements: "Requires a modern web browser with Canvas support",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      featureList: [
+        "Convert PNG and JPG to WebP",
+        "Batch convert up to 50 images",
+        "Live compression statistics",
+        "100% client-side, no uploads",
+        "Download all as a ZIP",
+      ],
+      author: { "@id": `${SITE_URL}/#author` },
+      inLanguage: ["en", "es"],
+    },
   ],
-  author: { "@type": "Person", name: "Gustavo Mejia Fuentes" },
-  inLanguage: ["en", "es"],
 };
 
 export default function RootLayout({
