@@ -24,7 +24,7 @@ export default function DropZone({ onFiles, disabled }: DropZoneProps) {
   const fileRef = useRef<HTMLInputElement>(null);
 
   const processFiles = useCallback((rawFiles: File[]) => {
-    const valid = rawFiles.filter(isAccepted).slice(0, 50);
+    const valid = rawFiles.filter(isAccepted);
     if (valid.length > 0) onFiles(valid);
   }, [onFiles]);
 

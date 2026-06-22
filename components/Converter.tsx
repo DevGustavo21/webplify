@@ -186,6 +186,8 @@ export default function Converter() {
       if (img.previewUrl) URL.revokeObjectURL(img.previewUrl);
     });
     setImages([]);
+    setConverting(false);
+    setZipping(false);
   };
 
   const removeImage = (id: string) => {
@@ -494,6 +496,55 @@ export default function Converter() {
 
       {/* RIGHT: uploaded images */}
       <div>
+        {images.length > 0 && (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 12,
+              marginBottom: 14,
+            }}
+          >
+            <p
+              style={{
+                fontFamily: "var(--font-heading)",
+                fontSize: 14,
+                fontWeight: 600,
+                color: "var(--text-muted)",
+              }}
+            >
+              {images.length}{" "}
+              <ScrambleText text={t.converter.images.toLowerCase()} />
+            </p>
+            <m.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={clearAll}
+              disabled={converting || zipping}
+              aria-label={t.converter.clearAll}
+              title={t.converter.clearAll}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 7,
+                padding: "9px 14px",
+                borderRadius: 10,
+                border: "1px solid rgba(255,107,107,0.25)",
+                background: "rgba(255,107,107,0.08)",
+                color: "#FF5C5C",
+                fontSize: 13,
+                fontWeight: 500,
+                cursor: converting || zipping ? "not-allowed" : "pointer",
+                fontFamily: "var(--font-body)",
+                opacity: converting || zipping ? 0.5 : 1,
+              }}
+            >
+              <Trash2 size={14} />
+              <ScrambleText text={t.converter.clearAll} />
+            </m.button>
+          </div>
+        )}
         {images.length === 0 ? (
           <div
             style={{

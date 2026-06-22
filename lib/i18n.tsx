@@ -1,10 +1,14 @@
 "use client";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  SEO_KEYWORDS_EN_TEXT,
+  SEO_KEYWORDS_ES_TEXT,
+} from "@/lib/seo-keywords";
 
 export type Locale = "en" | "es";
 
 export interface Dictionary {
-  meta: { title: string; description: string };
+  meta: { title: string; description: string; keywords: string };
   hero: {
     badge: string;
     titleA: string;
@@ -26,6 +30,7 @@ export interface Dictionary {
     webp: string;
     reduction: string;
     clear: string;
+    clearAll: string;
     downloadAll: string;
     zipping: string;
     emptyTitle: string;
@@ -59,6 +64,7 @@ const en: Dictionary = {
     title: "Webplify — Free WebP Image Converter | Optimize Images Online",
     description:
       "Webplify is a free online image converter that turns PNG and JPG into optimized WebP right in your browser. No uploads, no servers, 100% private — compress and download images instantly.",
+    keywords: SEO_KEYWORDS_EN_TEXT,
   },
   hero: {
     badge:
@@ -67,12 +73,12 @@ const en: Dictionary = {
     highlight: "WebP",
     titleB: "instantly",
     subtitle:
-      "Drag, drop, done. Upload up to 50 PNG/JPG images and get optimized WebP files with live compression stats.",
+      "Drag, drop, done. Upload unlimited PNG/JPG images and get optimized WebP files with live compression stats.",
   },
   dropzone: {
     idle: "Drop images or click to browse",
     active: "Drop your images here",
-    hint: "PNG, JPG, JPEG, WEBP · Up to 50 images",
+    hint: "PNG, JPG, JPEG, WEBP · Unlimited images",
     selectFiles: "Select Files",
   },
   converter: {
@@ -83,6 +89,7 @@ const en: Dictionary = {
     webp: "WebP",
     reduction: "Reduction",
     clear: "Clear",
+    clearAll: "Clear all images",
     downloadAll: "Download All (.zip)",
     zipping: "Zipping…",
     emptyTitle: "Your converted images appear here",
@@ -118,9 +125,10 @@ const en: Dictionary = {
 const es: Dictionary = {
   meta: {
     title:
-      "Webplify — Convertidor de imágenes WebP gratis | Optimiza imágenes online",
+      "Convertidor WebP Gratis | Convierte PNG y JPG Online — Webplify",
     description:
-      "Webplify es un convertidor de imágenes gratuito que transforma PNG y JPG a WebP optimizado directamente en tu navegador. Sin subidas, sin servidores, 100% privado — comprime y descarga imágenes al instante.",
+      "Convierte PNG y JPG a WebP gratis con Webplify. Optimiza y comprime imágenes en tu navegador, sin servidores ni límites. Tus archivos nunca salen de tu dispositivo.",
+    keywords: SEO_KEYWORDS_ES_TEXT,
   },
   hero: {
     badge:
@@ -129,12 +137,12 @@ const es: Dictionary = {
     highlight: "WebP",
     titleB: "al instante",
     subtitle:
-      "Arrastra, suelta y listo. Sube hasta 50 imágenes PNG/JPG y obtén archivos WebP optimizados con estadísticas de compresión en vivo.",
+      "Arrastra, suelta y listo. Sube imágenes PNG/JPG sin límite y obtén archivos WebP optimizados con estadísticas de compresión en vivo.",
   },
   dropzone: {
     idle: "Suelta imágenes o haz clic para explorar",
     active: "Suelta tus imágenes aquí",
-    hint: "PNG, JPG, JPEG, WEBP · Hasta 50 imágenes",
+    hint: "PNG, JPG, JPEG, WEBP · Imágenes ilimitadas",
     selectFiles: "Seleccionar archivos",
   },
   converter: {
@@ -145,6 +153,7 @@ const es: Dictionary = {
     webp: "WebP",
     reduction: "Reducción",
     clear: "Limpiar",
+    clearAll: "Eliminar todas las imágenes",
     downloadAll: "Descargar todo (.zip)",
     zipping: "Comprimiendo…",
     emptyTitle: "Aquí aparecerán tus imágenes convertidas",
@@ -202,24 +211,88 @@ function detectLocale(): Locale {
   return isSpanish ? "es" : "en";
 }
 
+function upsertMeta(
+  key: string,
+  content: string,
+  type: "name" | "property" = "name"
+) {
+  const selector = `${type}="${key}"`;
+  let el = document.querySelector<HTMLMetaElement>(`meta[${selector}]`);
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute(type, key);
+    document.head.appendChild(el);
+  }
+  el.content = content;
+}
+
 function applyLocale(locale: Locale) {
-  document.documentElement.lang = locale;
-  document.title = dictionaries[locale].meta.title;
-  const desc = document.querySelector('meta[name="description"]');
-  if (desc) desc.setAttribute("content", dictionaries[locale].meta.description);
+  const dict = dictionaries[locale];
+  document.documentElement.lang = locale === "es" ? "es" : "en";
+  document.title = dict.meta.title;
+  const titleEl = document.querySelector("title");
+  if (titleEl) titleEl.textContent = dict.meta.title;
+  upsertMeta("description", dict.meta.description);
+  upsertMeta("keywords", dict.meta.keywords);
+  upsertMeta("og:title", dict.meta.title, "property");
+  upsertMeta("og:description", dict.meta.description, "property");
+  upsertMeta("og:locale", locale === "es" ? "es_ES" : "en_US", "property");
+  upsertMeta("twitter:title", dict.meta.title);
+  upsertMeta("twitter:description", dict.meta.description);
+}
+
+function readInitialLocale(): Locale {
+  if (typeof window === "undefined") return "en";
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw === "en" || raw === "es") return raw;
+  } catch {}
+  return detectLocale();
+}
+
+/** Keeps document title/meta in sync — Next.js re-applies English metadata after hydration. */
+function LocaleMetaSync({ locale }: { locale: Locale }) {
+  const localeRef = useRef(locale);
+  localeRef.current = locale;
+
+  useLayoutEffect(() => {
+    applyLocale(locale);
+  }, [locale]);
+
+  useEffect(() => {
+    const expected = () => dictionaries[localeRef.current].meta.title;
+
+    const syncIfNeeded = () => {
+      if (document.title !== expected()) applyLocale(localeRef.current);
+    };
+
+    // Next metadata often wins right after hydration — re-apply once more.
+    syncIfNeeded();
+    const t1 = window.setTimeout(syncIfNeeded, 0);
+    const t2 = window.setTimeout(syncIfNeeded, 50);
+
+    const observer = new MutationObserver(syncIfNeeded);
+    observer.observe(document.head, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    });
+
+    return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+      observer.disconnect();
+    };
+  }, [locale]);
+
+  return null;
 }
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>("en");
+  const [locale, setLocaleState] = useState<Locale>(readInitialLocale);
 
-  useEffect(() => {
-    let stored: Locale | null = null;
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw === "en" || raw === "es") stored = raw;
-    } catch {}
-
-    const next = stored ?? detectLocale();
+  useLayoutEffect(() => {
+    const next = readInitialLocale();
     setLocaleState(next);
     applyLocale(next);
   }, []);
@@ -234,6 +307,7 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <I18nContext.Provider value={{ locale, t: dictionaries[locale], setLocale }}>
+      <LocaleMetaSync locale={locale} />
       {children}
     </I18nContext.Provider>
   );
